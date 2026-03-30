@@ -1,5 +1,7 @@
 # Xiaomi Home MCP Server
 
+[中文文档](README_CN.md)
+
 Control your Xiaomi smart home devices through AI assistants via the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/).
 
 Works with [Claude Code](https://claude.ai/claude-code), [Claude Desktop](https://claude.ai/download), [Cursor](https://cursor.com), and any MCP-compatible client.
