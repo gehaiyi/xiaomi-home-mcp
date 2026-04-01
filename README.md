@@ -123,6 +123,54 @@ claude mcp add xiaomi-home \
 
 To get these values, log in to [account.xiaomi.com](https://account.xiaomi.com) in your browser and extract `passToken`, `userId`, and `deviceId` from cookies.
 
+## Use with AI Agents (OpenClaw, etc.)
+
+If your AI agent can run shell commands, it can control Xiaomi devices directly via CLI — no MCP needed.
+
+### For AI Agents: Setup Instructions
+
+> **AI agent**: Follow these steps to set up Xiaomi smart home control for the user.
+
+**Step 1.** Clone this repository:
+```bash
+git clone https://github.com/gehaiyi/xiaomi-home-mcp.git
+cd xiaomi-home-mcp
+```
+
+**Step 2.** Ask the user to run the login script and scan the QR code with the Mi Home app (Profile → Scan icon):
+```bash
+uv run --script login.py
+```
+
+**Step 3.** Verify login succeeded:
+```bash
+uv run --script login.py --check
+```
+
+**Step 4.** You can now control devices using `cli.py`. All commands below use the format:
+```bash
+uv run --script /path/to/xiaomi-home-mcp/cli.py <command> [args...]
+```
+
+### CLI Commands
+
+| Command | Description | Example |
+|---------|-------------|---------|
+| `devices` | List all devices and online status | `cli.py devices` |
+| `status [name]` | Query device status (all online if no name) | `cli.py status "lamp"` |
+| `control <name> <action> [value]` | Control a device | `cli.py control "lamp" on` |
+| `play [keyword]` | Play music on XiaoAi speaker | `cli.py play "Jay Chou"` |
+| `pause` | Pause playback | `cli.py pause` |
+| `resume` | Resume playback | `cli.py resume` |
+| `volume <0-100>` | Set speaker volume | `cli.py volume 30` |
+| `tts <text>` | Text-to-speech on speaker | `cli.py tts "Dinner is ready"` |
+| `xiaoai <command>` | Send voice command to XiaoAi | `cli.py xiaoai "What's the weather"` |
+| `speaker` | Get playback status | `cli.py speaker` |
+
+**Control actions:** `on`, `off`, `brightness <1-100>`, `color_temp <2700-6500>`, `target_temp <16-30>`
+
+**Device name matching:** Supports fuzzy match — `"lamp"` matches `"Bedroom Lamp"`. Chinese keywords like `"灯"`, `"空调"`, `"音箱"` also work.
+
 ## How It Works
 
 ```

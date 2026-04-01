@@ -121,6 +121,54 @@ claude mcp add xiaomi-home \
 
 这些值需要在浏览器登录 [account.xiaomi.com](https://account.xiaomi.com) 后从 cookie 中提取。
 
+## AI 平台接入（OpenClaw / 小龙虾等）
+
+如果你的 AI 能执行命令行，就可以直接通过 CLI 控制米家设备，不需要 MCP。
+
+### 给 AI 的安装说明
+
+> **AI**：按以下步骤帮用户配置米家智能家居控制。
+
+**第 1 步.** 克隆仓库：
+```bash
+git clone https://github.com/gehaiyi/xiaomi-home-mcp.git
+cd xiaomi-home-mcp
+```
+
+**第 2 步.** 让用户运行登录脚本，用米家 App 扫码（我的 → 右上角扫一扫）：
+```bash
+uv run --script login.py
+```
+
+**第 3 步.** 验证登录成功：
+```bash
+uv run --script login.py --check
+```
+
+**第 4 步.** 现在可以用 `cli.py` 控制设备了。所有命令格式：
+```bash
+uv run --script /path/to/xiaomi-home-mcp/cli.py <命令> [参数...]
+```
+
+### CLI 命令
+
+| 命令 | 说明 | 示例 |
+|------|------|------|
+| `devices` | 列出所有设备和在线状态 | `cli.py devices` |
+| `status [名称]` | 查询设备状态（不填则查所有在线设备） | `cli.py status "台灯"` |
+| `control <名称> <动作> [值]` | 控制设备 | `cli.py control "台灯" on` |
+| `play [关键词]` | 小爱音箱播放音乐 | `cli.py play "周杰伦"` |
+| `pause` | 暂停播放 | `cli.py pause` |
+| `resume` | 继续播放 | `cli.py resume` |
+| `volume <0-100>` | 设置音量 | `cli.py volume 30` |
+| `tts <文字>` | 语音播报 | `cli.py tts "该吃饭了"` |
+| `xiaoai <指令>` | 向小爱发送语音指令 | `cli.py xiaoai "明天天气"` |
+| `speaker` | 获取播放状态 | `cli.py speaker` |
+
+**控制动作：** `on`、`off`、`brightness <1-100>`、`color_temp <2700-6500>`、`target_temp <16-30>`
+
+**设备名匹配：** 支持模糊匹配 — `"台灯"` 能匹配 `"书房台灯"`。中英文关键词都行：`"灯"`、`"lamp"`、`"空调"`、`"ac"`、`"音箱"`、`"speaker"`。
+
 ## 工作原理
 
 ```
